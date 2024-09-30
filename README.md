@@ -26,6 +26,7 @@ definition whereas the source file (.cpp) contains the implementation.
 - [CANONICAL FORM OF A CLASS](#canonical-form-of-a-class)
 
 ***
+***
 
 ## AD HOC POLYMORPHISM (FUNCTION OVERLOAD)
 Ad-hoc polymorphism, also known as function overloading, is a feature in C++ where **two or more functions can have the same name but differ in the type or number of their parameters**. This allows functions to handle different types of input without needing unique names. This is a form of compile-time polymorphism because the decision on which function to call is made at compile time based on the argument types or number of arguments provided.
