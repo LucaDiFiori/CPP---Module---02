@@ -79,6 +79,7 @@ int main() {
 - If a function has default arguments, its signature can overlap with other functions, potentially leading to ambiguity.
 
 ***
+***
 
 ## OPERATOR OVERLOAD
 Operator overloading in C++ allows you to define how operators (like +, -, *, ==, etc.) behave for user-defined types such as classes and structures. By overloading operators, you can extend their functionality to work with objects in the same way they do with primitive data types (like integers or floats). This is a form of polymorphism that makes custom classes more intuitive and usable, aligning them closer to native types.
@@ -91,7 +92,8 @@ C++ provides many operators that can be overloaded, but there are some operators
 
 ## Syntax
 ```C++
-return_type operator op (parameter_list) {
+return_type operator op (/*istance of the current class (implicit),*/ parameter_list) 
+{
     // function body
 }
 ```
@@ -142,7 +144,23 @@ public:
 In this case, operator+() takes one parameter: const Complex& other, which is the second operand in the addition.
 
 ### To better understand the parameter list
-Let consider the **operator+** example. In particular:
+Let's start by considering the addition operation between two integers:
+1 + 1. This notation is called infix notation because the operator "+" is placed between the two operands.
+
+However, we can rewrite this expression using a different notation: "functional notation": +(1,1).
+Written this way, our expression looks much more like a general function.
+
+Now, let’s assume that "+" is a method of a class.
+In this case, I could write:
+```C++
+1.+(1)
+```
+Where:
+- 1 = an instance of the class
+- + = a method of the class
+- (1) = the method's parameter
+
+Let now consider the **operator+** example. In particular:
 ```C++
 // ...
     Complex operator+(const Complex& other) {
@@ -273,3 +291,87 @@ int main() {
     return 0;
 }
 ```
+
+#### Example: Overloading Comparison Operators (== Operator)
+```C++
+//--------------------------------Integer.hpp
+#ifndef INTEGER_CLASS_H
+# define INTEGER_CLASS_H
+
+# include <iostream>
+
+class Integer {
+
+	public:
+		Integer( int const n);
+		~Intiger ( void );
+
+		int getValue (void) const;
+
+        // Non-const: Modifies the current object during assignment.
+        Integer& operator=(Integer const & rhs);
+        // Const: Does not modify the object, returns a new one with the result.
+        Integer operator+(Integer const & rhs) const;
+
+	private:
+		int _n;
+}
+
+std::ostream& operator <<( std::ostream & o, Integer const & ths);
+
+#endif
+
+
+//--------------------------------Integer.cpp
+Integer::Integer( int const n ) : _n(n) {
+	std::cout << "Costructor called with value " << n << std::endl;
+	return;
+}
+
+~Integer::Integer( int const n ) : _n(n) {
+	std::cout << "Destructor called with value " << this->_n << std::endl;
+	return;
+}
+
+int Integer::getValue(void) const {
+	return this->_n;
+}
+
+Integer& Integer::operator=(Integer const & rhs) {
+	std::cout << "Assignation operator called form " << this->_n;
+	std::cout << "to " << ths.getValue() << std::endl;
+
+	this->_n = rhs.getValue();
+
+    //'this' is a pointer so i need to use '*' to recover my reference
+	return (*this);
+}
+
+Integer Integer::operator+(Integer const & rhs) const {
+	std::cout << "Addition operator called with " << this->_n;
+	std::cout << "and " << ths.getValue() << std::endl;
+
+    /*The reason we're using 'Integer' in the return type of the operator+ method is because we're creating and returning a new Integer object that represents the result of the addition.
+    
+    we cannot simply return this->_n + rhs.getValue() because this->_n and rhs.getValue() are of type int, and the return type of the function is expected to be an Integer object, not an int and we need to return an Integer object (not just an int) to support operator chaining (a + b + c)*/
+	return Integer( this->_n + rhs.getValue());
+}
+
+std::ostream & operato<<( std::ostream & o, Integer const & ths) {
+	o << rhs.getValue();
+	return o;
+}
+```
+
+**Notes**
+- In **Integer& operator=(Integer const& rhs);**, the return type **Integer&** indicates that the assignment operator returns a reference to the current object.
+- In C++, the assignment operator (=) is typically designed to return a reference to the object that was assigned a new value. This allows chaining of assignments, like this:
+
+```C++
+Integer a(5);
+Integer b(10);
+Integer c(15);
+
+a = b = c;  // Assign `c` to `b` and then `b` to `a`
+```
+For this to work, b = c must return a reference to b (i.e., the object on the left-hand side), so that the result of b = c can be used as the left-hand side of a = (b = c).
