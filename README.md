@@ -735,3 +735,121 @@ int main() {
         - When you call std::move(str1) in your code, it casts str1 to an rvalue, allowing the move assignment operator to take ownership of its resources (like the data pointer) without copying them.
 
 ***
+
+From now on, our classes will be equipped with:
+- Default constructor
+- Copy constructor
+- Copy assignment operator
+- Destructor"
+
+**Example: Canonical form class**
+```C++
+//---------------------------------Sample.class.hpp
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+# include <iostream>
+
+class Sample {
+    public:
+        Sample (void); //Canonical: Default constuctor
+        Sample (int const n); //Canonical: Parametric Constructor
+        Sample (Sample const & src); //Canonical: Copy constructor 
+        Sample & operator=(Sample const & rhs); //Canonical: Copy assignment operator
+        /* Copy constructor vs Copy assignment operator:
+            - Copy constructor: A new instance is created
+            - Copy assignment operator: Update of the current instance
+        */
+        ~Sample (void); //Canonical: Destructor
+
+        int getFoo(void) const;
+
+    private:
+        int _foo;
+};
+
+//This overloading is non canonical but usefull
+std::ostream & operator<<(std::ostream& o, Sample const& i);
+
+#endif
+
+//------------------------------------Sample.cpp
+#include <iostream
+#include "Sample.class.h>
+
+Sample::sample(void) : _foo(0)
+{
+    std::cout << "Default Constructor called" << std::endl:
+    return;
+}
+
+Sample::Sample(int const n) : _foo(n) 
+{
+    std::cout << "Parametric Constructor called" << std::endl:
+    return;
+}
+
+Sample::Sample(Sample const & src) 
+{
+    std::cout << "Copy Constructor called" << std::endl:
+    *this = src;
+
+    return;
+}
+
+Sample& Sample::operator=(Sample const& rhs)
+{
+    std::cout << "Assignement operator called" << std::endl:
+    if (this != &rhs)
+        this->_foo = rhs.getFoo();
+    return (*this);
+}
+
+
+Sample::~Sample(void)
+{
+    std::cout << "Destructor called" << std::endl:
+    return;
+}
+
+int Sample::getFoo(void) const
+{
+    return this->_foo;
+}
+
+
+//-------------------------------main.cpp
+#include <iostream
+#include "Sample.class.h>
+
+int main()
+{
+    Sample instance1;
+    Sample instance2(42)
+    Sample instance1(instance1);
+
+    std::cout << intance1 << std::endl;
+    std::cout << intance2 << std::endl;
+    std::cout << intance3 << std::endl;
+
+    //istance3 is updated with the content of instance2
+    instance3 = instance2;
+    std::cout << intance3 << std::endl;
+}
+```
+
+**Output**
+```BASH
+Default Constructor called
+Parametric Constructor called
+copy Constructor called
+Assignement operator called
+The value of _foo is : 0
+The value of _foo is : 42
+The value of _foo is : 0
+Assignement operator called
+The value of _foo is : 42
+Destructor called
+Destructor called
+Destructor called
+```
