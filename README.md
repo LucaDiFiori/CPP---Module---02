@@ -724,6 +724,11 @@ int main() {
     - In the line String& operator=(String&& other) noexcept, the String&& syntax represents an rvalue reference.
     - **Definition**: An rvalue reference is a type of reference that can bind to temporary objects (rvalues). It allows you to differentiate between lvalues (objects with a persistent address) and rvalues (temporary objects that can be moved from).
     - **Syntax of an Rvalue Reference**: 
+        - **Declaration**: To declare an rvalue reference, you simply append && to the type name
+        ```C++
+        int&& myRvalueRef = 5; // myRvalueRef is an rvalue reference to the temporary integer 5
+        // int&& indicates that myRvalueRef can bind to an rvalue of type int.
+        ```
     - **Purpose**: The main purpose of rvalue references is to enable move semantics. Move semantics allow you to transfer resources (like dynamic memory) from one object to another without copying, which can improve performance and reduce unnecessary resource allocation and deallocation.
     - **Usage in Move Assignment**: In the context of the move assignment operator
         - The other parameter is an rvalue reference, meaning it can bind to a temporary String object.
