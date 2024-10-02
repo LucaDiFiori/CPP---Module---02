@@ -713,15 +713,15 @@ int main() {
     ```
 
 - **RVALUE VS LVALUE**:
-    - Lvalues:
+    - **Lvalues**:
         - An lvalue (locator value) refers to an object that occupies a specific location in memory and has a persistent address. Lvalues can be assigned values.
         - Example: Variables like int x = 5; (where x is an lvalue).
-    - Rvalues:
+    - **Rvalues**:
         - As mentioned, rvalues are temporary and do not have a persistent address. You cannot take the address of an rvalue using the address-of operator (&).
         - Example: The expression 5 + 10 is an rvalue because it produces a temporary result.
 
 - **RVALUE REFERENCE**: 
-In the line String& operator=(String&& other) noexcept, the String&& syntax represents an rvalue reference.
+    - In the line String& operator=(String&& other) noexcept, the String&& syntax represents an rvalue reference.
     - **Definition**: An rvalue reference is a type of reference that can bind to temporary objects (rvalues). It allows you to differentiate between lvalues (objects with a persistent address) and rvalues (temporary objects that can be moved from).
     - **Syntax of an Rvalue Reference**: 
     - **Purpose**: The main purpose of rvalue references is to enable move semantics. Move semantics allow you to transfer resources (like dynamic memory) from one object to another without copying, which can improve performance and reduce unnecessary resource allocation and deallocation.
