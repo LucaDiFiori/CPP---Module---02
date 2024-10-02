@@ -853,3 +853,5 @@ Destructor called
 Destructor called
 Destructor called
 ```
+
+*Note:* There are cases where the default constructor is unnecessary. In these cases, it is sufficient to include it as a private method
