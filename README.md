@@ -162,7 +162,7 @@ In this case, I could write:
 ```
 Where:
 - 1 = an instance of the class
-- + = a method of the class
+- '+' = a method of the class
 - (1) = the method's parameter
 
 Let now consider the **operator+** example. In particular:
@@ -564,6 +564,8 @@ public:
         // Copy constructor logic (e.g., deep copy)
     }
 };
+
+/*Note: in'const MyClass& other' const keyword guarantees that the object you are copying from will not be altered during the process.*/
 ```
 
 ## 3. Copy Assignment Operator
@@ -777,18 +779,21 @@ std::ostream & operator<<(std::ostream& o, Sample const& i);
 #include <iostream
 #include "Sample.class.h>
 
+//Canonical: Default constuctor
 Sample::sample(void) : _foo(0)
 {
     std::cout << "Default Constructor called" << std::endl:
     return;
 }
 
+//Canonical: Parametric Constructor
 Sample::Sample(int const n) : _foo(n) 
 {
     std::cout << "Parametric Constructor called" << std::endl:
     return;
 }
 
+//Canonical: Copy constructor
 Sample::Sample(Sample const & src) 
 {
     std::cout << "Copy Constructor called" << std::endl:
@@ -797,6 +802,7 @@ Sample::Sample(Sample const & src)
     return;
 }
 
+//Canonical: Copy assignment
 Sample& Sample::operator=(Sample const& rhs)
 {
     std::cout << "Assignement operator called" << std::endl:
@@ -805,7 +811,7 @@ Sample& Sample::operator=(Sample const& rhs)
     return (*this);
 }
 
-
+//Canonical: Destructor
 Sample::~Sample(void)
 {
     std::cout << "Destructor called" << std::endl:
