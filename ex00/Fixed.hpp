@@ -24,7 +24,7 @@ class Fixed
 	public:
 		Fixed(); // default constructor
 		Fixed(const Fixed &src); // copy constructor
-		Fixed& operator=(const Fixed &src); // Copy assignment operator
+		Fixed& operator=(const Fixed& src); // Copy assignment operator
 		~Fixed(); // Destructor
 
 		// Getters and Setters
@@ -35,6 +35,5 @@ class Fixed
 		* once raw is passed to the function, its value is read-only inside that function*/
 		void setRawBits(int const raw); 
 };
-
 
 #endif
