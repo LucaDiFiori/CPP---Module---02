@@ -814,8 +814,8 @@ Sample& Sample::operator=(Sample const& rhs)
     std::cout << "Assignment operator called" << std::endl;
     // Avoid self-assignment by checking if the current object and rhs are different
     if (this != &rhs)
-        this->_foo = rhs.getFoo(); /* Assigns the value of _foo from rhs (right-hand side) 
-                                      to the current object*/
+        this->_foo = rhs.getFoo(); /* Assigns the value of _foo from rhs
+                                  (right-hand side) to the current object*/
     return (*this);
 
     /*Note: The return type is Sample& :
@@ -832,7 +832,8 @@ Sample::~Sample(void)
 }
 
 // Getter function
-int Sample::getFoo(void) const  //declared as const since it doesn't modify the object
+//declared as const since it doesn't modify the object
+int Sample::getFoo(void) const
 {
     return this->_foo;
 }
