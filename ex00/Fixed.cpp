@@ -26,3 +26,8 @@ Fixed::Fixed(const Fixed& src)
 }
 
 // Copy assignment operator
+Fixed& Fixed::operator=(const Fixed& src)
+{
+	std::cout << "Assignation operator called" << std::endl;
+	
+}

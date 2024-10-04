@@ -817,7 +817,12 @@ Sample& Sample::operator=(Sample const& rhs)
         this->_foo = rhs.getFoo(); /* Assigns the value of _foo from rhs (right-hand side) 
                                       to the current object*/
     return (*this);
-}
+
+    /*Note: The return type is Sample& :
+            - To allow assignment chaining
+            -  Ensures that the modified object is returned, Since the purpose
+               of the assignment operator is to modify the left-hand side object*/
+}   
 
 // Canonical: Destructor
 Sample::~Sample(void)
