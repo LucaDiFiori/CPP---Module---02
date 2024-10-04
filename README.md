@@ -27,9 +27,7 @@ definition whereas the source file (.cpp) contains the implementation.
     - [2.OVERLOADING OPERATOR USING THE NON-MEMBER FUNCTION (FRIEND FUNCTION) SYNTAX](#2overloading-operator-using-the-non-member-function-friend-function-syntax)
 - [CANONICAL FORM OF A CLASS](#canonical-form-of-a-class)
     - [RVALUE, LVALUE, AND RVALUE REFERENCE](#rvalue-lvalue-and-rvalue-reference)
-
-***
-***
+- [WHAT ARE FIXED POINT NUMBERS?](#What-are-Fixed-Point-Numbers?)
 
 ## AD HOC POLYMORPHISM (FUNCTION OVERLOAD)
 Ad-hoc polymorphism, also known as function overloading, is a feature in C++ where **two or more functions can have the same name but differ in the type or number of their parameters**. This allows functions to handle different types of input without needing unique names. This is a form of compile-time polymorphism because the decision on which function to call is made at compile time based on the argument types or number of arguments provided.
@@ -883,3 +881,110 @@ Destructor called
 ```
 
 *Note:* There are cases where the default constructor is unnecessary. In these cases, it is sufficient to include it as a private method
+
+
+***
+***
+
+## WHAT ARE FIXED POINT NUMBERS?
+Fixed-point numbers are a way to represent real numbers (like 3.14, -2.5, etc.) using integers. They offer a simpler and more efficient alternative to floating-point numbers, especially in systems with limited resources (such as embedded systems, graphics, or sound processing).
+
+Unlike floating-point numbers, which allow for a floating decimal point (hence the name), fixed-point numbers have a fixed number of bits used for the fractional part. The position of the "decimal point" is fixed and doesn't move, which is why they are called fixed-point.
+
+## Integer Representation of Real Numbers
+Fixed-point numbers are stored as integers, but they represent real numbers by scaling the integer. The scaling is determined by how many bits are used to represent the fractional part.
+- The "integer part" is stored in the upper bits.
+- The "fractional part" is stored in the lower bits.
+To make the real number fit into an integer, we scale it by multiplying by some power of 2. This way, the fractional part of the number is represented using integer arithmetic.
+
+## Why Scaling?
+Scaling is needed because a real number can’t be stored directly as an integer. To store the fractional part, we scale the number (essentially shifting the decimal point to the right) so that it becomes a whole number (integer). Then, when we need to use the real value again, we can "scale it back" by dividing.
+
+## Example of Scaling
+Suppose we want to represent the real number 3.75 in fixed-point format with 8 fractional bits.
+### 1: Scale the real number
+We multiply the real number 3.75 by 2^8 = 256 (because we have 8 fractional bits). This gives:
+```BASH
+3.75 * 256 = 960
+```
+The scaled value is 960. This is what we store as an integer in memory.
+
+### 2: Storing the value
+Now, we store 960 in an integer variable. This integer represents the real number 3.75 in fixed-point format.
+
+### 3: Scaling back to the real number
+To get the original real number back, we divide the stored integer (960) by 256:
+```BASH
+960 / 256 = 3.75
+```
+This gives us the real number 3.75 again.
+
+## Bit Shifting Overview:
+- **Left shift (<<)**: Multiplies the number by powers of 2 (shifting bits to the left).
+- **Right shift (>>)**: Divides the number by powers of 2 (shifting bits to the right).
+
+## Convert an intiger to fixed-point
+To convert an integer number to a fixed-point representation, you need to scale the integer by the appropriate power of 2, based on the number of fractional bits. Here's a step-by-step explanation of how to do it:
+- **Choose the number of fractional bits**: This determines how much precision you want for the fractional part. In your case, let’s assume you are using 8 fractional bits.
+- **Scale the integer**: To convert an integer to its fixed-point representation, you need to scale it by multiplying the integer by 2^fractional_bits. For 8 fractional bits, this means multiplying by 2^8 = 256
+
+#### Example
+Let’s say you want to convert the integer 5 into a fixed-point number with 8 fractional bits.
+- Integer: The number you want to convert is 5.à
+- Scaling: You multiply the integer by 2^8. It means shifting 8 beats to the left
+```C++
+int value = 5;
+const int fractional_bits = 8
+fixed_point_value = value << fractional_bits;  // Equivalent to 5 * 256 = 1280;
+```
+
+## Convert a fixed-point number back to a real number
+When you want to convert a fixed-point number back to a real number (from its scaled integer form), you divide by 2^8 which is equivalent to a right shift by 8 bits.
+
+For instance, dividing by 2^8 (256) can be written as:
+```C++
+int realValue = fixedPointValue >> 8;
+```
+
+## Convert a floating-point number to a fixed-point
+Converting a floating-point number to a fixed-point number involves a few straightforward steps. You need to scale the floating-point value into an integer representation using a fixed number of fractional bits. Let’s go through the steps in detail.
+- **Choose the Number of Fractional Bits**: Determine how many bits you will use for the fractional part. For example, let’s say you use 8 fractional bits.
+- **Determine the Scaling Factor**: The scaling factor is 2^fractional bits
+- **Multiply the Floating-Point Number by the Scaling Factor**: This will convert the floating-point number into an integer representation. The formula looks like this:
+fixed-point value = floating-point number × 256
+- **Store the Result**: Store the resulting integer as the fixed-point representation.
+- **Handle Rounding (optional)**: Depending on your needs, you may want to round the result to the nearest integer instead of just truncating it.
+
+**Code Example for Conversion**
+```C++
+class Fixed 
+{
+private:
+    int _value;  // Fixed-point value (scaled)
+    static const int _fractionalBits = 8;  // Number of fractional bits
+
+public:
+    // Constructor that takes a floating-point number and converts it to fixed-point
+    Fixed(float floatValue) {
+        _value = static_cast<int>(round(floatValue * (1 << _fractionalBits)));  // Scale and round
+        std::cout << "Floating-point converted to fixed-point: " << _value << std::endl;
+    }
+}
+```
+**Code explanation**
+```C++
+_value = static_cast<int>(round(floatValue * (1 << _fractionalBits)));
+```
+- **floatValue * (1 << _fractionalBits)**:
+    - 1 << _fractionalBits: This uses the left shift operator to calculate
+    - This operation converts the floating-point number into a scaled integer value.
+- **round(...)**:
+    - This function rounds the scaled value to the nearest integer. This step is crucial because it helps avoid truncation errors, which could occur if you simply converted the floating-point number to an integer without rounding.
+- **static_cast<int>(...)**:
+    - **Overview of static_cast**:
+        - static_cast<Type>(expression) converts the expression to the specified Type.
+        - It can be used to convert between compatible types, such as Primitive types and User-defined types
+        - static_cast performs checks at compile time. If the conversion is not valid, it generates a compilation error, reducing the risk of runtime errors associated with invalid conversions.
+    - After rounding, we use static_cast<int>() to convert the rounded value from a floating-point type (which could be a float or double) back to an integer.
+    - This is necessary because _value is defined as an int, and we need to ensure that the data type matches.
+
