@@ -780,51 +780,56 @@ std::ostream & operator<<(std::ostream& o, Sample const& i);
 #include "Sample.class.h>
 
 //Canonical: Default constuctor
-// Constructor: Default constructor
 Sample::sample(void) : _foo(0)
 {
-    std::cout << "Default Constructor called" << std::endl;  // Outputs a message when the default constructor is called
-    return;  // Explicit return in a constructor is redundant, but harmless
+    std::cout << "Default Constructor called" << std::endl;
+    return;
 }
 
 // Canonical: Parametric Constructor
 Sample::Sample(int const n) : _foo(n)
 {
-    std::cout << "Parametric Constructor called" << std::endl;  // Outputs a message when the parametric constructor is called
+    std::cout << "Parametric Constructor called" << std::endl;  
     return;  // Explicit return in a constructor is redundant
 }
 
 // Canonical: Copy Constructor
 Sample::Sample(Sample const & src)
 {
-    std::cout << "Copy Constructor called" << std::endl;  // Outputs a message when the copy constructor is called
-    *this = src;  // Uses the copy assignment operator to copy the content of src into the current object
-    return;  // Explicit return in a constructor is redundant
+    std::cout << "Copy Constructor called" << std::endl;
+    // Uses the copy assignment operator to copy the content of src into the current object
+    *this = src;
+    return;
 
     /*Note: '*this = src;'
-    this is a pointer that refers to the object on which the method was called. By dereferencing this with *, you get a reference to the current object. So, *this = src; assigns the state of src to the current object (which this points to).*/
+    this is a pointer that refers to the object on which the method was called. 
+    By dereferencing this with *, you get a reference to the current object. 
+    So, *this = src; assigns the state of src to the current object 
+    (which this points to).*/
 }
 
 // Canonical: Copy Assignment Operator
 Sample& Sample::operator=(Sample const& rhs)
 {
-    std::cout << "Assignment operator called" << std::endl;  // Outputs a message when the assignment operator is called
-    if (this != &rhs)  // Avoid self-assignment by checking if the current object and rhs are different
-        this->_foo = rhs.getFoo();  // Assigns the value of _foo from rhs (right-hand side) to the current object
-    return (*this);  // Returns a reference to the current object (*this) to allow chained assignments
+    std::cout << "Assignment operator called" << std::endl;
+    // Avoid self-assignment by checking if the current object and rhs are different
+    if (this != &rhs)
+        this->_foo = rhs.getFoo(); /* Assigns the value of _foo from rhs (right-hand side) 
+                                      to the current object*/
+    return (*this);
 }
 
 // Canonical: Destructor
 Sample::~Sample(void)
 {
-    std::cout << "Destructor called" << std::endl;  // Outputs a message when the destructor is called
-    return;  // Explicit return in a destructor is redundant
+    std::cout << "Destructor called" << std::endl;
+    return;
 }
 
 // Getter function
 int Sample::getFoo(void) const  //declared as const since it doesn't modify the object
 {
-    return this->_foo;  // Returns the value of _foo
+    return this->_foo;
 }
 
 //-------------------------------main.cpp
