@@ -1008,8 +1008,8 @@ fixed_point_value = static_cast<int>(round(value * (1 << fractional_bits)));
     - **Why Multiply Instead of Shift**: When you multiply a floating-point value by this scaling factor, you are effectively scaling the float into the fixed-point range. This conversion needs to account for fractional values, so you cannot simply shift the float; instead, you multiply.
 
 #### Summary
-- **Integer Conversion**: Uses left shifting to efficiently scale the integer value to fixed-point format. 
-- **Floating-point Conversion**: Uses multiplication with the scaling factor derived from a left shift to convert the float into a fixed-point representation. The use of multiplication is necessary to account for possible fractional parts in floating-point numbers, which do not apply to integer values.
+- **Integer Conversion**: Uses left shifting (*value << fractional_bits*) to efficiently scale the integer value to fixed-point format. 
+- **Floating-point Conversion**: Uses multiplication (*value * (1 << fractional_bits)*) with the scaling factor derived from a left shift to convert the float into a fixed-point representation. The use of multiplication is necessary to account for possible fractional parts in floating-point numbers, which do not apply to integer values.
 
 
 ## Convert fixed-point back to floating-point
