@@ -821,7 +821,15 @@ Sample& Sample::operator=(Sample const& rhs)
     /*Note: The return type is Sample& :
             - To allow assignment chaining
             -  Ensures that the modified object is returned, Since the purpose
-               of the assignment operator is to modify the left-hand side object*/
+               of the assignment operator is to modify the left-hand side
+              object
+              
+      Note: 'if (this != &rhs)'
+            this is a pointer to the current object, so you use this != &rhs 
+            to compare memory addresses. Infact, when you have a reference, 
+            like Sample const& rhs, &rhs gives you the memory address of 
+            the object
+    */
 }   
 
 // Canonical: Destructor
