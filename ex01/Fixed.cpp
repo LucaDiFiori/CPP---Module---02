@@ -19,24 +19,24 @@ Fixed::Fixed() : _value(0)
 }
 
 // Constructor with int
+/* convert the integer 'value' to its fixed-point representation by multiplying 
+*  it by 2^fractional_bits (shift 8 bits to the lesf)
+*
+*  Note: i use Fixed::_bits instead of _bits because _bits is a static member 
+*        of the class Fixed
+*/
 Fixed::Fixed(const int value)
 {
 	std::cout << "Int constructor called" << std::endl;
-	/* convert the integer 'value' to its fixed-point representation by multiplying 
-	   it by 2^fractional_bits (shift 8 bits to the lesf)*/
 	this->_value = value << Fixed::_bits;
 }
 
-
-
-
-
-
-
-
-
-
-
+// Constructor with float
+Fixed::Fixed(const float value)
+{
+	std::cout << "Float constructor called" << std::endl;
+	this->_value = static_cast<int>(round(value * (1 << _bits)));
+}
 
 // Copy constructor
 Fixed::Fixed(const Fixed& src)

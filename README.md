@@ -939,7 +939,7 @@ fixed_point_value = value << fractional_bits;  // Equivalent to 5 * 256 = 1280;
 ```
 
 ## Convert a fixed-point number back to a real number
-When you want to convert a fixed-point number back to a real number (from its scaled integer form), you divide by 2^8 which is equivalent to a right shift by 8 bits.
+When you want to convert a fixed-point number back to a real number (from its scaled integer form), you divide (couse the fixed-point is stored as an int) by 2^8 which is equivalent to a right shift by 8 bits.
 
 For instance, dividing by 2^8 (256) can be written as:
 ```C++
@@ -976,7 +976,8 @@ public:
 _value = static_cast<int>(round(floatValue * (1 << _fractionalBits)));
 ```
 - **floatValue * (1 << _fractionalBits)**:
-    - 1 << _fractionalBits: This uses the left shift operator to calculate
+    - 1 << _fractionalBits: This uses the left shift operator to calculate 2 ^ fractionalbits
+    - 1 << 8 is equivalent to 2^8 which equals 256.
     - This operation converts the floating-point number into a scaled integer value.
 - **round(...)**:
     - This function rounds the scaled value to the nearest integer. This step is crucial because it helps avoid truncation errors, which could occur if you simply converted the floating-point number to an integer without rounding.
@@ -988,3 +989,27 @@ _value = static_cast<int>(round(floatValue * (1 << _fractionalBits)));
     - After rounding, we use static_cast<int>() to convert the rounded value from a floating-point type (which could be a float or double) back to an integer.
     - This is necessary because _value is defined as an int, and we need to ensure that the data type matches.
 
+### scaling intiger vs float
+The use of shifting in the integer and floating-point conversions reflects the differences in how fixed-point representation is typically implemented and how integer values are handled compared to floating-point values.
+```C++
+//Intiger to fixed
+fixed_point_value = value << fractional_bits;
+
+//float to fixed
+fixed_point_value = static_cast<int>(round(value * (1 << fractional_bits)));
+```
+- **Intiger conversion**: When converting an integer to a fixed-point number, you often directly scale the integer value by shifting:
+    - **Bit Shifting**: The expression value << fractional_bits shifts the bits of value to the left by fractional_bits positions.
+    - **Effect of Left Shift**: Left shifting by n bits is equivalent to multiplying by 2^n. In this case, shifting by 8 bits multiplies the integer value by 2^8 = 256
+    - **Fixed-point Representation**: This approach directly converts the integer to its fixed-point representation by scaling it. For example, if value is 5, the result of 5 << 8 is 1280 which represents 5.0 in fixed-point format with 8 fractional bits.
+
+- **Floating-point Conversion**: When converting a floating-point number to a fixed-point representation, the scaling is done differently
+    - **Scaling Factor**: The expression (1 << _fractionalBits) calculates the scaling factor, which is 2^8 = 256 when _fractionalBits is 8
+    - **Why Multiply Instead of Shift**: When you multiply a floating-point value by this scaling factor, you are effectively scaling the float into the fixed-point range. This conversion needs to account for fractional values, so you cannot simply shift the float; instead, you multiply.
+
+#### Summary
+- **Integer Conversion**: Uses left shifting to efficiently scale the integer value to fixed-point format. 
+- **Floating-point Conversion**: Uses multiplication with the scaling factor derived from a left shift to convert the float into a fixed-point representation. The use of multiplication is necessary to account for possible fractional parts in floating-point numbers, which do not apply to integer values.
+
+
+## Convert fixed-point back to floating-point
