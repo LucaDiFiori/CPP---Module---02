@@ -790,7 +790,7 @@ Sample::sample(void) : _foo(0)
 Sample::Sample(int const n) : _foo(n)
 {
     std::cout << "Parametric Constructor called" << std::endl;  
-    return;  // Explicit return in a constructor is redundant
+    return;
 }
 
 // Canonical: Copy Constructor
@@ -811,7 +811,7 @@ Sample::Sample(Sample const & src)
 // Canonical: Copy Assignment Operator
 Sample& Sample::operator=(Sample const& rhs)
 {
-    std::cout << "Assignment operator called" << std::endl;
+    std::cout << "Copy assignment operator called" << std::endl;
     // Avoid self-assignment by checking if the current object and rhs are different
     if (this != &rhs)
         this->_foo = rhs.getFoo(); /* Assigns the value of _foo from rhs
