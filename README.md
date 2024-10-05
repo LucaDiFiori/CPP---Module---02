@@ -1013,3 +1013,7 @@ fixed_point_value = static_cast<int>(round(value * (1 << fractional_bits)));
 
 
 ## Convert fixed-point back to floating-point
+To convert a fixed-point number back to a floating-point number, you need to reverse the scaling process that was done when converting from floating-point to fixed-point. This is achieved by dividing the fixed-point value by the same scaling factor that was used during the initial conversion.
+```C++
+float float_value = fixed_point_value / static_cast<float>(1 << fractional_bits);
+```
