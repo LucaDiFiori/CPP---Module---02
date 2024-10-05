@@ -359,9 +359,15 @@ Integer Integer::operator+(Integer const & rhs) const {
 	std::cout << "Addition operator called with " << this->_n;
 	std::cout << "and " << ths.getValue() << std::endl;
 
-    /*The reason we're using 'Integer' in the return type of the operator+ method is because we're creating and returning a new Integer object that represents the result of the addition.
+    /*The reason we're using 'Integer' in the return type of the operator+
+      method is because we're creating and returning a new Integer object
+      that represents the result of the addition.
     
-    we cannot simply return this->_n + rhs.getValue() because this->_n and rhs.getValue() are of type int, and the return type of the function is expected to be an Integer object, not an int and we need to return an Integer object (not just an int) to support operator chaining (a + b + c)*/
+    we cannot simply return this->_n + rhs.getValue() because this->_n 
+    and rhs.getValue() are of type int, and the return type of the function
+    is expected to be an Integer object, not an int and we need to return 
+    an Integer object (not just an int) to support operator chaining 
+    (a + b + c)*/
 	return Integer( this->_n + rhs.getValue());
 }
 
