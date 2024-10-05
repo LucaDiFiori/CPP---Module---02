@@ -48,7 +48,7 @@ Fixed::Fixed(const Fixed& src)
 // Copy assignment operator
 Fixed& Fixed::operator=(const Fixed& src)
 {
-	std::cout << "Assignation operator called" << std::endl;
+	std::cout << "Copy assignment operator called" << std::endl;
 
 	if (this != &src)
 		this->_value = src.getRawBits();
@@ -61,14 +61,31 @@ Fixed::~Fixed()
 	std::cout << "Destructor called" << std::endl;
 }
 
+// Getters and Setters
 int Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
 	return (this->_value);
 }
 
 void Fixed::setRawBits(const int raw)
 {
-	std::cout << "setRawBits member function called" << std::endl;
 	this->_value = raw;
+}
+
+// member functions
+float Fixed::toFloat(void) const
+{
+	return (static_cast<float>(this->_value) / (1 << Fixed::_bits));
+}
+
+int Fixed::toInt(void) const
+{
+	return (this->_value >> Fixed::_bits);
+}
+
+// Overload operator << to print Fixed as float
+std::ostream& operator<<(std::ostream& os, const Fixed& src)
+{
+	os << src.toFloat();
+	return (os);
 }
